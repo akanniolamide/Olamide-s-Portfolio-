@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akanni Olamide Maryam — Junior Web Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Karla:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #FAF7F0;
+            --dark: #1a1614;
+            --rust: #D4795F;
+            --sage: #98A38F;
+            --warm-gray: #9E8C7A;
+            --text-muted: #6b6460;
+        }
+
+        body {
+            font-family: 'Karla', sans-serif;
+            background: var(--cream);
+            color: var(--dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Custom cursor */
+        * {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="8" fill="%23D4795F" opacity="0.5"/></svg>') 10 10, auto;
+        }
+
+        a, button {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><circle cx="12" cy="12" r="10" fill="%231a1614"/></svg>') 12 12, pointer;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, var(--cream) 0%, rgba(250, 247, 240, 0.95) 70%, transparent 100%);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--dark);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--rust);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            padding: 12rem 5% 6rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(212, 121, 95, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-30px, 40px) scale(1.05); }
+        }
+
+        .hero-content {
+            max-width: 900px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-label {
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--warm-gray);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+        }
+
+        .hero h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            color: var(--dark);
+            letter-spacing: -0.03em;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 3rem;
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.6s forwards;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.8s forwards;
+        }
+
+        .btn {
+            padding: 0.9rem 2rem;
+            font-family: 'Karla', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-decoration: none;
+            border: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--rust);
+            color: var(--cream);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .btn-primary:hover::before {
+            left: 0;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--dark);
+            border: 1.5px solid var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background: var(--dark);
+            color: var(--cream);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section spacing */
+        section {
+            padding: 6rem 5%;
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+        }
+
+        .section-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--warm-gray);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .section-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            line-height: 1.2;
+            color: var(--dark);
+            letter-spacing: -0.02em;
+        }
+
+        /* Work Section */
+        .work {
+            background: linear-gradient(to bottom, var(--cream) 0%, #f5f0e8 100%);
+        }
+
+        .projects-grid {
+            display: grid;
+            gap: 4rem;
+        }
+
+        .project {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeInView 0.8s ease forwards;
+            animation-timeline: view();
+            animation-range: entry 0% cover 30%;
+        }
+
+        .project:nth-child(even) {
+            grid-template-columns: 1fr 1.2fr;
+        }
+
+        .project:nth-child(even) .project-image {
+            order: 2;
+        }
+
+        .project-image {
+            aspect-ratio: 4/3;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+            background: var(--dark);
+        }
+
+        .project-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(212, 121, 95, 0.15), rgba(152, 163, 143, 0.15));
+            z-index: 1;
+            transition: opacity 0.4s ease;
+        }
+
+        .project:hover .project-image::before {
+            opacity: 0;
+        }
+
+        .netflix-img {
+            background: #E50914;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'DM Serif Display', serif;
+            font-size: 4rem;
+            color: white;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+        }
+
+        .calculator-img {
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+        }
+
+        .inventory-img {
+            background: linear-gradient(135deg, #2c5f2d 0%, #97bc62 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+        }
+
+        .project-content h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            letter-spacing: -0.02em;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .project-tag {
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            padding: 0.3rem 0.8rem;
+            background: rgba(212, 121, 95, 0.1);
+            color: var(--rust);
+            border-radius: 2px;
+            font-weight: 600;
+        }
+
+        .project-description {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            font-size: 0.85rem;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            border-bottom: 1.5px solid var(--dark);
+            padding-bottom: 0.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: var(--rust);
+            border-color: var(--rust);
+        }
+
+        @keyframes fadeInView {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* About Section */
+        .about {
+            background: var(--cream);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: start;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .skills-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .skill-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(26, 22, 20, 0.1);
+        }
+
+        .skill-icon {
+            width: 8px;
+            height: 8px;
+            background: var(--rust);
+            border-radius: 50%;
+        }
+
+        .skill-name {
+            font-size: 0.95rem;
+            color: var(--dark);
+            font-weight: 400;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--dark);
+            color: var(--cream);
+            padding: 8rem 5%;
+        }
+
+        .contact .section-label {
+            color: var(--warm-gray);
+        }
+
+        .contact .section-title {
+            color: var(--cream);
+            margin-bottom: 2rem;
+        }
+
+        .contact-info {
+            font-size: 1.2rem;
+            color: var(--warm-gray);
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            max-width: 600px;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            font-size: 1rem;
+            color: var(--cream);
+            text-decoration: none;
+            border-bottom: 1.5px solid var(--cream);
+            padding-bottom: 0.3rem;
+            transition: all 0.3s ease;
+            font-weight: 400;
+        }
+
+        .contact-link:hover {
+            color: var(--rust);
+            border-color: var(--rust);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            padding: 3rem 5%;
+            border-top: 1px solid rgba(250, 247, 240, 0.1);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--warm-gray);
+            font-size: 0.85rem;
+        }
+
+        .footer-content a {
+            color: var(--warm-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-content a:hover {
+            color: var(--cream);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            nav {
+                padding: 1.5rem 4%;
+            }
+
+            .nav-links {
+                gap: 1.5rem;
+            }
+
+            .hero {
+                padding: 10rem 4% 4rem;
+            }
+
+            section {
+                padding: 4rem 4%;
+            }
+
+            .project,
+            .project:nth-child(even) {
+                grid-template-columns: 1fr;
+            }
+
+            .project:nth-child(even) .project-image {
+                order: 0;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .skills-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-description {
+                font-size: 1.1rem;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="#" class="logo">Akanni Olamide Maryam</a>
+        <ul class="nav-links">
+            <li><a href="#work">Work</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-label">Junior Web Developer</p>
+            <h1>Building clean, functional web experiences</h1>
+            <p class="hero-description">
+                I create thoughtful web applications with attention to detail, 
+                combining clean code with design that makes sense. Currently seeking opportunities to grow and contribute.
+            </p>
+            <div class="hero-cta">
+                <a href="#work" class="btn btn-primary">See my work</a>
+                <a href="#contact" class="btn btn-secondary">Get in touch</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work -->
+    <section id="work" class="work">
+        <div class="section-header">
+            <p class="section-label">Selected Projects</p>
+            <h2 class="section-title">Recent work</h2>
+        </div>
+
+        <div class="projects-grid">
+            <!-- Netflix Clone -->
+            <article class="project">
+                <div class="project-image netflix-img">
+                    NETFLIX
+                </div>
+                <div class="project-content">
+                    <h3>Netflix Landing Page</h3>
+                    <div class="project-meta">
+                        <span class="project-tag">HTML5</span>
+                        <span class="project-tag">CSS3</span>
+                        <span class="project-tag">JavaScript</span>
+                    </div>
+                    <p class="project-description">
+                        Pixel-perfect recreation of Netflix's landing page with responsive design, 
+                        interactive FAQ sections, and smooth animations. Fully functional across 
+                        all device sizes.
+                    </p>
+                    <div class="project-links">
+                        <a href="netflix-clone.html" class="project-link">View demo →</a>
+                        <a href="https://github.com/akanniolamide" class="project-link">See code →</a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Calculator -->
+            <article class="project">
+                <div class="project-image calculator-img">
+                    🔢
+                </div>
+                <div class="project-content">
+                    <h3>Modern Calculator</h3>
+                    <div class="project-meta">
+                        <span class="project-tag">HTML5</span>
+                        <span class="project-tag">CSS3</span>
+                        <span class="project-tag">JavaScript</span>
+                    </div>
+                    <p class="project-description">
+                        Fully functional calculator with modern glassmorphic design. Features 
+                        keyboard support, error handling, and smooth animations for an enhanced 
+                        user experience.
+                    </p>
+                    <div class="project-links">
+                        <a href="calculator.html" class="project-link">View demo →</a>
+                        <a href="https://github.com/akanniolamide" class="project-link">See code →</a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Book Inventory -->
+            <article class="project">
+                <div class="project-image inventory-img">
+                    📚
+                </div>
+                <div class="project-content">
+                    <h3>Book Inventory Manager</h3>
+                    <div class="project-meta">
+                        <span class="project-tag">HTML5</span>
+                        <span class="project-tag">CSS3</span>
+                        <span class="project-tag">JavaScript</span>
+                        <span class="project-tag">LocalStorage</span>
+                    </div>
+                    <p class="project-description">
+                        Comprehensive inventory application with full CRUD functionality, search, 
+                        filtering, sorting, and data persistence using localStorage. Clean interface 
+                        for managing book collections.
+                    </p>
+                    <div class="project-links">
+                        <a href="book-inventory.html" class="project-link">View demo →</a>
+                        <a href="https://github.com/akanniolamide" class="project-link">See code →</a>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="about">
+        <div class="section-header">
+            <p class="section-label">Background</p>
+            <h2 class="section-title">A bit about me</h2>
+        </div>
+
+        <div class="about-content">
+            <div class="about-text">
+                <p>
+                    I'm a junior web developer from Ibadan, Oyo State, Nigeria, passionate about creating 
+                    clean, efficient, and user-friendly web applications. My journey in web 
+                    development began with curiosity about how websites work, and it has evolved 
+                    into a commitment to mastering the craft.
+                </p>
+                <p>
+                    I specialize in frontend development with HTML, CSS, and JavaScript, focusing 
+                    on writing semantic code and building responsive interfaces. I believe in 
+                    continuous learning and staying updated with the latest web technologies and 
+                    best practices.
+                </p>
+                <p>
+                    Currently pursuing FreeCodeCamp certification while building projects to 
+                    strengthen my portfolio. I'm eager to contribute to meaningful projects and 
+                    grow professionally in a collaborative development environment.
+                </p>
+            </div>
+
+            <div>
+                <p class="section-label" style="margin-bottom: 1.5rem;">Current toolkit</p>
+                <div class="skills-list">
+                    <div class="skill-item">
+                        <span class="skill-icon"></span>
+                        <span class="skill-name">HTML5 & Semantic markup</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-icon"></span>
+                        <span class="skill-name">CSS3 & Animations</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-icon"></span>
+                        <span class="skill-name">JavaScript (ES6+)</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-icon"></span>
+                        <span class="skill-name">Responsive Design</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-icon"></span>
+                        <span class="skill-name">Flexbox & CSS Grid</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-icon"></span>
+                        <span class="skill-name">Git & GitHub</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-icon"></span>
+                        <span class="skill-name">Web Standards</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-icon"></span>
+                        <span class="skill-name">Problem Solving</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact">
+        <div class="section-header">
+            <p class="section-label">Let's talk</p>
+            <h2 class="section-title">Get in touch</h2>
+        </div>
+
+        <p class="contact-info">
+            I'm currently open to job opportunities and collaborations. Whether you have a project 
+            in mind, want to discuss web development, or just want to connect, I'd love to hear from you.
+        </p>
+
+        <div class="contact-links">
+            <a href="mailto:Akanniolamide48@gmail.com" class="contact-link">Akanniolamide48@gmail.com</a>
+            <a href="https://github.com/akanniolamide" class="contact-link" target="_blank">GitHub</a>
+            <a href="https://www.linkedin.com/in/akanni-olamide-136919313" class="contact-link" target="_blank">LinkedIn</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>© 2026 Akanni Olamide Maryam</p>
+            <p>Built with HTML, CSS & JavaScript | Ibadan, Oyo State, Nigeria 🇳🇬</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll progress indicator
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.style.backdropFilter = 'blur(20px)';
+            } else {
+                nav.style.backdropFilter = 'blur(10px)';
+            }
+        });
+    </script>
+</body>
+</html>

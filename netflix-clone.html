@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix Clone - Unlimited movies, TV shows, and more</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #000;
+            color: #fff;
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900"><rect fill="%23141414" width="1600" height="900"/><circle cx="400" cy="300" r="200" fill="%23222"/><circle cx="1200" cy="600" r="250" fill="%231a1a1a"/></svg>');
+            background-size: cover;
+            background-position: center;
+            border-bottom: 8px solid #222;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 3rem;
+        }
+
+        .logo {
+            width: 140px;
+            height: 38px;
+            background: #E50914;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            color: #fff;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .language-btn {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid #aaa;
+            color: #fff;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .signin-btn {
+            background: #E50914;
+            color: #fff;
+            border: none;
+            padding: 0.4rem 1rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: background 0.3s;
+        }
+
+        .signin-btn:hover {
+            background: #c11119;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 8rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero h2 {
+            font-size: 1.6rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .email-signup {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .email-input {
+            flex: 1;
+            min-width: 300px;
+            max-width: 450px;
+            padding: 1.2rem 1rem;
+            font-size: 1rem;
+            border: 1px solid #555;
+            border-radius: 4px;
+            background: rgba(22, 22, 22, 0.7);
+            color: #fff;
+        }
+
+        .get-started-btn {
+            background: #E50914;
+            color: #fff;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.3s;
+        }
+
+        .get-started-btn:hover {
+            background: #c11119;
+        }
+
+        /* Features Section */
+        .feature {
+            border-bottom: 8px solid #222;
+            padding: 4rem 3rem;
+        }
+
+        .feature-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .feature:nth-child(even) .feature-content {
+            direction: rtl;
+        }
+
+        .feature:nth-child(even) .feature-text {
+            direction: ltr;
+        }
+
+        .feature-text h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .feature-text p {
+            font-size: 1.5rem;
+            line-height: 1.4;
+        }
+
+        .feature-image {
+            position: relative;
+        }
+
+        .feature-image img {
+            width: 100%;
+            height: auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* TV Feature */
+        .tv-container {
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tv-container::before {
+            content: '';
+            position: absolute;
+            inset: 20%;
+            background: radial-gradient(circle, rgba(229, 9, 20, 0.3) 0%, transparent 70%);
+        }
+
+        /* Download Feature */
+        .download-container {
+            aspect-ratio: 3/4;
+            background: linear-gradient(135deg, #2d1b1b 0%, #1a1414 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-animation {
+            position: absolute;
+            bottom: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 60%;
+        }
+
+        .download-icon {
+            width: 50px;
+            height: 60px;
+            background: linear-gradient(135deg, #E50914 0%, #c11119 100%);
+            border-radius: 4px;
+        }
+
+        .download-text {
+            flex: 1;
+        }
+
+        .download-text h4 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .download-text p {
+            font-size: 0.85rem;
+            color: #0071eb;
+        }
+
+        /* Watch Everywhere */
+        .devices-container {
+            aspect-ratio: 16/10;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+        }
+
+        .devices-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            padding: 2rem;
+        }
+
+        .device-icon {
+            font-size: 3rem;
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+        }
+
+        /* Kids Profile */
+        .kids-container {
+            aspect-ratio: 3/4;
+            background: linear-gradient(135deg, #1a1a2d 0%, #0f0f1a 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            border-bottom: 8px solid #222;
+            padding: 4rem 3rem;
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+        }
+
+        .faq-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-question {
+            background: #2d2d2d;
+            padding: 1.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: #414141;
+        }
+
+        .faq-answer {
+            background: #2d2d2d;
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .faq-answer.active {
+            padding: 1.5rem;
+            max-height: 500px;
+            margin-top: 1px;
+        }
+
+        .faq-answer p {
+            font-size: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .faq-signup {
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .faq-signup p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 3rem;
+            background: #000;
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            margin-bottom: 2rem;
+            color: #aaa;
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-country {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero h2 {
+                font-size: 1.2rem;
+            }
+
+            .feature-content {
+                grid-template-columns: 1fr;
+            }
+
+            .feature:nth-child(even) .feature-content {
+                direction: ltr;
+            }
+
+            .feature-text h2 {
+                font-size: 2rem;
+            }
+
+            .feature-text p {
+                font-size: 1.1rem;
+            }
+
+            .footer-links {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .email-signup {
+                flex-direction: column;
+            }
+
+            .email-input {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">NETFLIX</div>
+            <div class="nav-buttons">
+                <select class="language-btn">
+                    <option>English</option>
+                    <option>Español</option>
+                </select>
+                <button class="signin-btn">Sign In</button>
+            </div>
+        </nav>
+
+        <div class="hero">
+            <h1>Unlimited movies, TV shows, and more</h1>
+            <h2>Watch anywhere. Cancel anytime.</h2>
+            <p>Ready to watch? Enter your email to create or restart your membership.</p>
+            <div class="email-signup">
+                <input type="email" class="email-input" placeholder="Email address">
+                <button class="get-started-btn">Get Started ›</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Feature 1: TV -->
+    <section class="feature">
+        <div class="feature-content">
+            <div class="feature-text">
+                <h2>Enjoy on your TV</h2>
+                <p>Watch on Smart TVs, Playstation, Xbox, Chromecast, Apple TV, Blu-ray players, and more.</p>
+            </div>
+            <div class="feature-image">
+                <div class="tv-container">
+                    📺
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature 2: Download -->
+    <section class="feature">
+        <div class="feature-content">
+            <div class="feature-text">
+                <h2>Download your shows to watch offline</h2>
+                <p>Save your favorites easily and always have something to watch.</p>
+            </div>
+            <div class="feature-image">
+                <div class="download-container">
+                    📱
+                    <div class="download-animation">
+                        <div class="download-icon"></div>
+                        <div class="download-text">
+                            <h4>Stranger Things</h4>
+                            <p>Downloading...</p>
+                        </div>
+                        <div style="font-size: 2rem;">⬇️</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature 3: Watch Everywhere -->
+    <section class="feature">
+        <div class="feature-content">
+            <div class="feature-text">
+                <h2>Watch everywhere</h2>
+                <p>Stream unlimited movies and TV shows on your phone, tablet, laptop, and TV.</p>
+            </div>
+            <div class="feature-image">
+                <div class="devices-container">
+                    <div class="devices-grid">
+                        <div class="device-icon">💻</div>
+                        <div class="device-icon">📱</div>
+                        <div class="device-icon">📺</div>
+                        <div class="device-icon">⌚</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature 4: Kids -->
+    <section class="feature">
+        <div class="feature-content">
+            <div class="feature-text">
+                <h2>Create profiles for kids</h2>
+                <p>Send kids on adventures with their favorite characters in a space made just for them—free with your membership.</p>
+            </div>
+            <div class="feature-image">
+                <div class="kids-container">
+                    👶
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <h2 class="faq-title">Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>What is Netflix?</span>
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Netflix is a streaming service that offers a wide variety of award-winning TV shows, movies, anime, documentaries, and more on thousands of internet-connected devices.</p>
+                    <br>
+                    <p>You can watch as much as you want, whenever you want without a single commercial – all for one low monthly price. There's always something new to discover and new TV shows and movies are added every week!</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>How much does Netflix cost?</span>
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Watch Netflix on your smartphone, tablet, Smart TV, laptop, or streaming device, all for one fixed monthly fee. Plans range from $6.99 to $22.99 a month. No extra costs, no contracts.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Where can I watch?</span>
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Watch anywhere, anytime. Sign in with your Netflix account to watch instantly on the web at netflix.com from your personal computer or on any internet-connected device that offers the Netflix app, including smart TVs, smartphones, tablets, streaming media players and game consoles.</p>
+                    <br>
+                    <p>You can also download your favorite shows with the iOS, Android, or Windows 10 app. Use downloads to watch while you're on the go and without an internet connection. Take Netflix with you anywhere.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>How do I cancel?</span>
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Netflix is flexible. There are no pesky contracts and no commitments. You can easily cancel your account online in two clicks. There are no cancellation fees – start or stop your account anytime.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>What can I watch on Netflix?</span>
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Netflix has an extensive library of feature films, documentaries, TV shows, anime, award-winning Netflix originals, and more. Watch as much as you want, anytime you want.</p>
+                </div>
+            </div>
+
+            <div class="faq-signup">
+                <p>Ready to watch? Enter your email to create or restart your membership.</p>
+                <div class="email-signup">
+                    <input type="email" class="email-input" placeholder="Email address">
+                    <button class="get-started-btn">Get Started ›</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p class="footer-top">Questions? Call 1-844-505-2993</p>
+            <div class="footer-links">
+                <a href="#">FAQ</a>
+                <a href="#">Help Center</a>
+                <a href="#">Account</a>
+                <a href="#">Media Center</a>
+                <a href="#">Investor Relations</a>
+                <a href="#">Jobs</a>
+                <a href="#">Ways to Watch</a>
+                <a href="#">Terms of Use</a>
+                <a href="#">Privacy</a>
+                <a href="#">Cookie Preferences</a>
+                <a href="#">Corporate Information</a>
+                <a href="#">Contact Us</a>
+                <a href="#">Speed Test</a>
+                <a href="#">Legal Notices</a>
+                <a href="#">Only on Netflix</a>
+            </div>
+            <select class="language-btn" style="margin-bottom: 1rem;">
+                <option>English</option>
+                <option>Español</option>
+            </select>
+            <p class="footer-country">Netflix Clone</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('span:last-child');
+            
+            // Close all other FAQs
+            document.querySelectorAll('.faq-answer').forEach(item => {
+                if (item !== answer) {
+                    item.classList.remove('active');
+                    item.previousElementSibling.querySelector('span:last-child').textContent = '+';
+                }
+            });
+            
+            // Toggle current FAQ
+            answer.classList.toggle('active');
+            icon.textContent = answer.classList.contains('active') ? '×' : '+';
+        }
+    </script>
+</body>
+</html>
